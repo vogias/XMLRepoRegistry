@@ -127,7 +127,7 @@ public class Actions {
 			repository.setUrl(url);
 
 			System.out.println("Insert repository name:");
-			repository.setName(reader.next());
+			repository.setName(reader.next().replace(" ",""));
 
 			System.out.println("Insert metadata prefix:");
 			repository.setPrefix(reader.next());
@@ -169,7 +169,7 @@ public class Actions {
 
 		Iterator<File> iterator = files.iterator();
 
-		if (name.equals("*")) {
+		if (name.equals("-a")) {
 
 			while (iterator.hasNext()) {
 				iterator.next().delete();

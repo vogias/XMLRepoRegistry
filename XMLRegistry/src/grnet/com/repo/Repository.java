@@ -49,7 +49,7 @@ public class Repository {
 		createServer();
 
 		try {
-			setName(server.identify().getRepositoryName());
+			setName(server.identify().getRepositoryName().replace(" ", ""));
 			setOaiVersion(server.identify().getProtocolVersion());
 			setDelPolicy(server.identify().getDeletedRecord());
 			setGranularity(server.identify().getGranularity());

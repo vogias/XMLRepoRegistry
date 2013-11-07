@@ -102,6 +102,7 @@ public class XMLRegistry {
 			}
 		} else {
 			System.err.println("Wrong number of inputs");
+			System.err.println(args.length);
 			System.exit(-1);
 		}
 
