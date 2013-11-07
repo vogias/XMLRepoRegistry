@@ -55,7 +55,7 @@ public class XMLRegistry {
 			if (args[0].equals("-d")) {
 				actions = new Actions();
 
-				actions.listSpecificRepoInfo(path, args[1]);
+				actions.delRepository(path, args[1]);
 			}
 
 		} else if (args.length == 0) {
