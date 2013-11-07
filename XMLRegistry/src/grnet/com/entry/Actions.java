@@ -189,7 +189,7 @@ public class Actions {
 		}
 	}
 
-	public void updateRepository(String name) {
+	public void updateRepository(File path, String name) {
 		System.out.println("update repo");
 	}
 
