@@ -61,7 +61,7 @@ public class XMLRegistry {
 		} else if (args.length == 0) {
 			System.out.println("Choose one of the following actions:");
 			System.out
-					.println("1. Add repository | 2. List repositories | 3. Update repository | 4. Delete repository");
+					.println("1. Add repository | 2. List repositories | 3. Delete repository");
 			Scanner reader = new Scanner(System.in);
 
 			int choice = reader.nextInt();
@@ -93,15 +93,9 @@ public class XMLRegistry {
 				}
 			} else if (choice == 3) {
 				actions = new Actions(reader);
-				System.out.println("Insert repository name update:");
-				String name = reader.next();
-				actions.updateRepository(name);
-			} else if (choice == 4) {
-				actions = new Actions(reader);
 				System.out.println("Insert repository name to delete:");
 				String name = reader.next();
 				actions.delRepository(path, name);
-
 			} else {
 				System.err.println("Wrong choice.");
 				System.exit(-1);
