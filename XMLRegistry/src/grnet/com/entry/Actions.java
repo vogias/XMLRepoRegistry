@@ -108,9 +108,7 @@ public class Actions {
 				if (next.getName().equals(name + ".xml")) {
 					Repository repository = (Repository) unmarshaller
 							.unmarshal(next);
-					System.out.println("Repository URL:" + repository.getUrl());
-					System.out.println("Repository Rrefix:"
-							+ repository.getPrefix());
+					printRepoInfo(repository);
 				}
 
 			}
