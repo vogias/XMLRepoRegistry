@@ -16,6 +16,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author vogias
@@ -28,6 +30,9 @@ public class Actions {
 
 	Marshaller marshaller;
 	Unmarshaller unmarshaller;
+
+	private static final Logger slf4jLogger = LoggerFactory
+			.getLogger(Actions.class);
 
 	public Actions(Scanner reader) {
 		this.reader = reader;
@@ -43,6 +48,7 @@ public class Actions {
 		marshaller = context.createMarshaller();
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
 	}
 
 	private void initUnMarshaller() throws JAXBException {
@@ -118,6 +124,20 @@ public class Actions {
 
 	}
 
+	private void logNewRepo(Repository repo) {
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append(repo.getName());
+		buffer.append(" NEW");
+		buffer.append(" " + repo.getUrl());
+		buffer.append(" " + repo.getPrefix());
+		buffer.append(" " + repo.getOaiVersion());
+		buffer.append(" " + repo.getDelPolicy());
+		buffer.append(" " + repo.getGranularity());
+		buffer.append(" " + repo.getResponsible());
+		slf4jLogger.info(buffer.toString());
+	}
+
 	public void addRepository(String url, int choice, File path)
 			throws JAXBException {
 		if (choice == 1) {
@@ -125,7 +145,7 @@ public class Actions {
 			repository.setUrl(url);
 
 			System.out.println("Insert repository name:");
-			repository.setName(reader.next().replace(" ",""));
+			repository.setName(reader.next().replace(" ", ""));
 
 			System.out.println("Insert metadata prefix:");
 			repository.setPrefix(reader.next());
@@ -138,6 +158,8 @@ public class Actions {
 			File repoFile = new File(path, repository.getName() + ".xml");
 			initMarshaller();
 			marshaller.marshal(repository, repoFile);
+			logNewRepo(repository);
+
 			System.out.println("Repository is saved.");
 
 		} else if (choice == 2) {
@@ -151,6 +173,7 @@ public class Actions {
 			File repoFile = new File(path, repository.getName() + ".xml");
 			initMarshaller();
 			marshaller.marshal(repository, repoFile);
+			logNewRepo(repository);
 			System.out.println("Repository is saved.");
 		} else {
 			System.err.println("Wrong choice value.");

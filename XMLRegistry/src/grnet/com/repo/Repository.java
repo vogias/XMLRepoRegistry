@@ -36,8 +36,15 @@ public class Repository {
 
 		try {
 			setOaiVersion(server.identify().getProtocolVersion());
-			setDelPolicy(server.identify().getDeletedRecord());
+
+			String deletedRecord = server.identify().getDeletedRecord();
+			if (deletedRecord.equalsIgnoreCase("no"))
+				setDelPolicy("nopolicy");
+			else
+				setDelPolicy(deletedRecord);
+			
 			setGranularity(server.identify().getGranularity());
+			
 		} catch (OAIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
