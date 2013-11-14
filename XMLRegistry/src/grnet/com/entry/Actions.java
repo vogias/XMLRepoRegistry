@@ -108,16 +108,20 @@ public class Actions {
 			initUnMarshaller();
 
 			Iterator<File> iterator = files.iterator();
+			boolean flag = false;
 			while (iterator.hasNext()) {
 				File next = iterator.next();
 
 				if (next.getName().equals(name + ".xml")) {
+					flag = true;
 					Repository repository = (Repository) unmarshaller
 							.unmarshal(next);
 					printRepoInfo(repository);
 				}
 
 			}
+			if (flag == false)
+				System.err.println("No repository found...");
 
 		} else
 			System.err.println("No repositories found...");
@@ -191,6 +195,7 @@ public class Actions {
 		Iterator<File> iterator = files.iterator();
 
 		initUnMarshaller();
+
 		if (name.equals("-a")) {
 
 			while (iterator.hasNext()) {
@@ -202,12 +207,13 @@ public class Actions {
 			}
 			System.out.println("All repository entries are deleted.");
 		} else {
-
+			boolean flag = false;
 			while (iterator.hasNext()) {
 				File next = iterator.next();
 				String fileName = next.getName();
 
 				if ((name + ".xml").equals(fileName)) {
+					flag = true;
 					Repository repository = (Repository) unmarshaller
 							.unmarshal(next);
 					logRepo(repository, "DELETE");
@@ -216,7 +222,10 @@ public class Actions {
 				}
 
 			}
-			System.out.println("Repository:" + name + " is deleted.");
+			if (flag == false)
+				System.err.println("No repository found...");
+			else
+				System.out.println("Repository:" + name + " is deleted.");
 		}
 	}
 }
