@@ -124,11 +124,11 @@ public class Actions {
 
 	}
 
-	private void logNewRepo(Repository repo) {
+	private void logRepo(Repository repo, String status) {
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append(repo.getName());
-		buffer.append(" NEW");
+		buffer.append(" " + status);
 		buffer.append(" " + repo.getUrl());
 		buffer.append(" " + repo.getPrefix());
 		buffer.append(" " + repo.getOaiVersion());
@@ -158,7 +158,7 @@ public class Actions {
 			File repoFile = new File(path, repository.getName() + ".xml");
 			initMarshaller();
 			marshaller.marshal(repository, repoFile);
-			logNewRepo(repository);
+			logRepo(repository, "NEW");
 
 			System.out.println("Repository is saved.");
 
@@ -173,7 +173,7 @@ public class Actions {
 			File repoFile = new File(path, repository.getName() + ".xml");
 			initMarshaller();
 			marshaller.marshal(repository, repoFile);
-			logNewRepo(repository);
+			logRepo(repository, "NEW");
 			System.out.println("Repository is saved.");
 		} else {
 			System.err.println("Wrong choice value.");
@@ -182,7 +182,7 @@ public class Actions {
 
 	}
 
-	public void delRepository(File path, String name) {
+	public void delRepository(File path, String name) throws JAXBException {
 		String[] extensions = { "xml" };
 		FileUtils utils = new FileUtils();
 
@@ -190,10 +190,15 @@ public class Actions {
 
 		Iterator<File> iterator = files.iterator();
 
+		initUnMarshaller();
 		if (name.equals("-a")) {
 
 			while (iterator.hasNext()) {
-				iterator.next().delete();
+				File next = iterator.next();
+				Repository repository = (Repository) unmarshaller
+						.unmarshal(next);
+				logRepo(repository, "DELETE");
+				next.delete();
 			}
 			System.out.println("All repository entries are deleted.");
 		} else {
@@ -202,12 +207,16 @@ public class Actions {
 				File next = iterator.next();
 				String fileName = next.getName();
 
-				if ((name + ".xml").equals(fileName))
+				if ((name + ".xml").equals(fileName)) {
+					Repository repository = (Repository) unmarshaller
+							.unmarshal(next);
+					logRepo(repository, "DELETE");
 					next.delete();
+
+				}
 
 			}
 			System.out.println("Repository:" + name + " is deleted.");
 		}
 	}
-
 }
