@@ -19,7 +19,8 @@ import se.kb.oai.pmh.OaiPmhServer;
 @XmlRootElement
 public class Repository {
 
-	String name, url, prefix, oaiVersion, delPolicy, granularity, responsible;
+	String name, url, prefix, oaiVersion, delPolicy, granularity, responsible,
+			xslURLstr;
 	OaiPmhServer server;
 
 	/**
@@ -42,9 +43,9 @@ public class Repository {
 				setDelPolicy("nopolicy");
 			else
 				setDelPolicy(deletedRecord);
-			
+
 			setGranularity(server.identify().getGranularity());
-			
+
 		} catch (OAIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,6 +65,7 @@ public class Repository {
 					.iterator();
 			String next = iterator.next();
 			setResponsible(next);
+			setXslURLstr("Insert manually the XSL File URL.");
 		} catch (OAIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,6 +123,23 @@ public class Repository {
 	@XmlElement
 	public String getResponsible() {
 		return responsible;
+	}
+
+	/**
+	 * @return the xslURLstr
+	 */
+	@XmlElement
+	public String getXslURLstr() {
+		return xslURLstr;
+	}
+
+	/**
+	 * @param xslURLstr
+	 *            the xslURLstr to set
+	 */
+
+	public void setXslURLstr(String xslURLstr) {
+		this.xslURLstr = xslURLstr;
 	}
 
 	/**

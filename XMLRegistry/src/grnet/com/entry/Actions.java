@@ -70,6 +70,7 @@ public class Actions {
 		System.out.println("Repository granularity:" + repo.getDelPolicy());
 		System.out.println("Repository responsible person mail:"
 				+ repo.getResponsible());
+		System.out.println("XSL URL:" + repo.getXslURLstr());
 
 	}
 
@@ -156,6 +157,9 @@ public class Actions {
 
 			System.out.println("Insert responsible person mail:");
 			repository.setResponsible(reader.next());
+
+			System.out.println("Insert XSL file URL:");
+			repository.setXslURLstr(reader.next());
 
 			repository.setPartialInfo();
 
