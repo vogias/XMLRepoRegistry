@@ -70,6 +70,7 @@ public class Actions {
 		System.out.println("Repository granularity:" + repo.getDelPolicy());
 		System.out.println("Repository responsible person mail:"
 				+ repo.getResponsible());
+		System.out.println("Repository set:" + repo.getSet());
 		System.out.println("XSL URL:" + repo.getXslURLstr());
 
 	}
@@ -161,6 +162,9 @@ public class Actions {
 			System.out.println("Insert XSL file URL:");
 			repository.setXslURLstr(reader.next());
 
+			System.out.println("Insert set:");
+			repository.setSet(reader.next());
+
 			repository.setPartialInfo();
 
 			File repoFile = new File(path, repository.getName() + ".xml");
@@ -174,8 +178,14 @@ public class Actions {
 			Repository repository = new Repository();
 			repository.setUrl(url);
 
+			System.out.println("Insert repository name:");
+			repository.setName(reader.next());
+
 			System.out.println("Insert metadata prefix:");
 			repository.setPrefix(reader.next());
+
+			System.out.println("Insert set:");
+			repository.setSet(reader.next());
 
 			repository.setFullInfo();
 			File repoFile = new File(path, repository.getName() + ".xml");

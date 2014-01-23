@@ -74,6 +74,7 @@ public class XMLRegistry {
 				System.out
 						.println("1. Insert info manually | 2. Insert info automatically");
 				int input = reader.nextInt();
+				
 				actions.addRepository(url, input, path);
 			} else if (choice == 2) {
 				actions = new Actions(reader);

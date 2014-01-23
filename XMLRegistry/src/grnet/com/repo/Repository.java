@@ -20,7 +20,7 @@ import se.kb.oai.pmh.OaiPmhServer;
 public class Repository {
 
 	String name, url, prefix, oaiVersion, delPolicy, granularity, responsible,
-			xslURLstr;
+			xslURLstr,set;
 	OaiPmhServer server;
 
 	/**
@@ -57,7 +57,7 @@ public class Repository {
 		createServer();
 
 		try {
-			setName(server.identify().getRepositoryName().replace(" ", ""));
+			//setName(server.identify().getRepositoryName().replace(" ", ""));
 			setOaiVersion(server.identify().getProtocolVersion());
 			setDelPolicy(server.identify().getDeletedRecord());
 			setGranularity(server.identify().getGranularity());
@@ -66,12 +66,18 @@ public class Repository {
 			String next = iterator.next();
 			setResponsible(next);
 			setXslURLstr("Insert manually the XSL File URL.");
+			
 		} catch (OAIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	@XmlElement
+	public String getSet() {
+		return set;
+	}
+	
 	@XmlElement
 	public String getName() {
 		return name;
@@ -140,6 +146,10 @@ public class Repository {
 
 	public void setXslURLstr(String xslURLstr) {
 		this.xslURLstr = xslURLstr;
+	}
+	
+	public void setSet(String set) {
+		this.set = set;
 	}
 
 	/**
