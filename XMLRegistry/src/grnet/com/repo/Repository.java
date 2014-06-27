@@ -30,7 +30,7 @@ import se.kb.oai.pmh.OaiPmhServer;
 public class Repository {
 
 	String name, url, prefix, oaiVersion, delPolicy, granularity, responsible,
-			xslURLstr,set;
+			xslURLstr,set,protocol;
 	OaiPmhServer server;
 
 	/**
@@ -107,6 +107,11 @@ public class Repository {
 	@XmlElement
 	public String getPrefix() {
 		return prefix;
+	}
+	
+	@XmlElement
+	public String getProtocol() {
+		return "OAI-PMH";
 	}
 
 	/**

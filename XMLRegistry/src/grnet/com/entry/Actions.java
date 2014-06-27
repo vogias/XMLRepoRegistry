@@ -84,6 +84,14 @@ public class Actions {
 		System.out.println("XSL URL:" + repo.getXslURLstr());
 
 	}
+	
+	private void printRepoInfo(RSSRepo repo) {
+		System.out.println("----------------------------------");
+		System.out.println("Repository name:" + repo.getName());
+		System.out.println("Repository URL:" + repo.getUrl());
+		System.out.println("XSL URL:" + repo.getXslURLstr());
+
+	}
 
 	public void listRepositories(File path) throws JAXBException {
 
