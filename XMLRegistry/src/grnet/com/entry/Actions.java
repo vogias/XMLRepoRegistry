@@ -13,6 +13,7 @@
  */
 package grnet.com.entry;
 
+import grnet.com.repo.RSSRepo;
 import grnet.com.repo.Repository;
 
 import java.io.File;
@@ -60,6 +61,13 @@ public class Actions {
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 	}
+	private void initRSSMarshaller() throws JAXBException {
+		context = JAXBContext.newInstance(RSSRepo.class);
+		marshaller = context.createMarshaller();
+
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+	}
 
 	private void initUnMarshaller() throws JAXBException {
 		context = JAXBContext.newInstance(Repository.class);
@@ -84,14 +92,8 @@ public class Actions {
 		System.out.println("XSL URL:" + repo.getXslURLstr());
 
 	}
-	
-	private void printRepoInfo(RSSRepo repo) {
-		System.out.println("----------------------------------");
-		System.out.println("Repository name:" + repo.getName());
-		System.out.println("Repository URL:" + repo.getUrl());
-		System.out.println("XSL URL:" + repo.getXslURLstr());
 
-	}
+	
 
 	public void listRepositories(File path) throws JAXBException {
 
@@ -207,7 +209,7 @@ public class Actions {
 
 			repository.setFullInfo();
 			File repoFile = new File(path, repository.getName() + ".xml");
-			initMarshaller();
+			initRSSMarshaller();
 			marshaller.marshal(repository, repoFile);
 			logRepo(repository, "NEW");
 			System.out.println("Repository is saved.");
@@ -215,6 +217,28 @@ public class Actions {
 			System.err.println("Wrong choice value.");
 			System.exit(-1);
 		}
+
+	}
+
+	public void addRepository(String url, File path) throws JAXBException {
+
+		RSSRepo repository = new RSSRepo();
+		repository.setUrl(url);
+
+		System.out.println("Insert repository name:");
+		repository.setName(reader.next().replace(" ", ""));
+
+		System.out.println("Insert repository URL:" + url);
+		repository.setUrl(url);
+
+		System.out.println("Insert XSL file URL:");
+		repository.setXslURLstr(reader.next());
+
+		File repoFile = new File(path, repository.getName() + ".xml");
+		initRSSMarshaller();
+		marshaller.marshal(repository, repoFile);
+
+		System.out.println("Repository is saved.");
 
 	}
 

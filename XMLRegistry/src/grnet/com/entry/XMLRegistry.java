@@ -79,13 +79,27 @@ public class XMLRegistry {
 			Actions actions;
 			if (choice == 1) {
 				actions = new Actions(reader);
-				System.out.println("Insert new repository oai-pmh target url:");
-				String url = reader.next();
 				System.out
-						.println("1. Insert info manually | 2. Insert info automatically");
-				int input = reader.nextInt();
-				
-				actions.addRepository(url, input, path);
+						.println("Insert new RSS repository | 2. Insert new OAI-PMH repository");
+				int repoChoice = reader.nextInt();
+
+				if (repoChoice == 1) {
+					System.out.println("Insert new RSS repository url:");
+					String url = reader.next();
+
+					actions.addRepository(url, path);
+				}
+				if (repoChoice == 2) {
+
+					System.out
+							.println("Insert new repository oai-pmh target url:");
+					String url = reader.next();
+					System.out
+							.println("1. Insert info manually | 2. Insert info automatically");
+					int input = reader.nextInt();
+
+					actions.addRepository(url, input, path);
+				}
 			} else if (choice == 2) {
 				actions = new Actions(reader);
 				System.out

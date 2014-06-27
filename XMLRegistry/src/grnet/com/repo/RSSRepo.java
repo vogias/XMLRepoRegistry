@@ -4,11 +4,13 @@
 package grnet.com.repo;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author vogias
  * 
  */
+@XmlRootElement(name="repository")
 public class RSSRepo {
 	String name, url, xslURLstr, protocol;
 
