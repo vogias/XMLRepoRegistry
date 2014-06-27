@@ -61,6 +61,7 @@ public class Actions {
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
 	}
+
 	private void initRSSMarshaller() throws JAXBException {
 		context = JAXBContext.newInstance(RSSRepo.class);
 		marshaller = context.createMarshaller();
@@ -92,8 +93,6 @@ public class Actions {
 		System.out.println("XSL URL:" + repo.getXslURLstr());
 
 	}
-
-	
 
 	public void listRepositories(File path) throws JAXBException {
 
@@ -209,7 +208,7 @@ public class Actions {
 
 			repository.setFullInfo();
 			File repoFile = new File(path, repository.getName() + ".xml");
-			initRSSMarshaller();
+			initMarshaller();
 			marshaller.marshal(repository, repoFile);
 			logRepo(repository, "NEW");
 			System.out.println("Repository is saved.");
@@ -232,7 +231,7 @@ public class Actions {
 		repository.setUrl(url);
 
 		System.out.println("Insert XSL file URL:");
-		repository.setXslURLstr(reader.next());
+		repository.setXslURLstr("Insert manually the XSL File URL.");
 
 		File repoFile = new File(path, repository.getName() + ".xml");
 		initRSSMarshaller();
