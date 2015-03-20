@@ -78,7 +78,7 @@ public class XMLRegistry {
 
 			Actions actions;
 			if (choice == 1) {
-				actions = new Actions(reader);
+				actions = new Actions(reader, properties);
 				System.out
 						.println("Insert new RSS repository | 2. Insert new OAI-PMH repository");
 				int repoChoice = reader.nextInt();
@@ -101,7 +101,7 @@ public class XMLRegistry {
 					actions.addRepository(url, input, path);
 				}
 			} else if (choice == 2) {
-				actions = new Actions(reader);
+				actions = new Actions(reader, properties);
 				System.out
 						.println("1. List all repositories | 2. List a specific repository info.");
 				int in = reader.nextInt();
@@ -117,7 +117,7 @@ public class XMLRegistry {
 					System.exit(-1);
 				}
 			} else if (choice == 3) {
-				actions = new Actions(reader);
+				actions = new Actions(reader, properties);
 				System.out.println("Insert repository name to delete:");
 				String name = reader.next();
 				actions.delRepository(path, name);

@@ -15,10 +15,13 @@ package grnet.com.entry;
 
 import grnet.com.repo.RSSRepo;
 import grnet.com.repo.Repository;
+import grnet.constans.Constants;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Scanner;
 
 import javax.xml.bind.JAXBContext;
@@ -29,6 +32,10 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 
 /**
  * @author vogias
@@ -44,10 +51,13 @@ public class Actions {
 
 	private static final Logger slf4jLogger = LoggerFactory
 			.getLogger(Actions.class);
+	private final static String QUEUE_NAME = "repository_registry";
 
-	public Actions(Scanner reader) {
+	Properties props;
+
+	public Actions(Scanner reader, Properties props) {
 		this.reader = reader;
-
+		this.props = props;
 	}
 
 	public Actions() {
@@ -161,6 +171,28 @@ public class Actions {
 		buffer.append(" " + repo.getGranularity());
 		buffer.append(" " + repo.getResponsible());
 		slf4jLogger.info(buffer.toString());
+
+		ConnectionFactory factory = new ConnectionFactory();
+
+		factory.setHost(props.getProperty(Constants.queueHost));
+		factory.setUsername(props.getProperty(Constants.queueUser));
+		factory.setPassword(props.getProperty(Constants.queuePass));
+
+		Connection connection;
+		try {
+			connection = factory.newConnection();
+			Channel channel = connection.createChannel();
+			channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+
+			channel.basicPublish("", QUEUE_NAME, null, buffer.toString()
+					.getBytes());
+			channel.close();
+			connection.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void addRepository(String url, int choice, File path)
